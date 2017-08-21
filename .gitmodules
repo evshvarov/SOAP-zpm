@@ -1,0 +1,3 @@
+[submodule "Sample-zpm"]
+	path = Sample-zpm
+	url = https://github.com/intersystems-community/Sample-zpm
