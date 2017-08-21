@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="SOAP.ResponseInfo">
+<Description>
+SOAP header for returned response information.</Description>
+<Super>%SOAP.Header</Super>
+<TimeCreated>60379,59154.019992</TimeCreated>
+
+<Parameter name="NAMESPACE">
+<Description>
+NAMESPACE specifies the XML namespace to be used when creating the header.
+Note that this header is in the web service namespace, not the header namespace.</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Property name="ResponseCode">
+<Type>%xsd.int</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Response">
+<Type>%String</Type>
+</Property>
+</Class>
+</Export>

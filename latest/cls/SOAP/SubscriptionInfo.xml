@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="SOAP.SubscriptionInfo">
+<Description>
+SOAP header to return subscription information.</Description>
+<Super>%SOAP.Header</Super>
+<TimeCreated>60379,59410.843958</TimeCreated>
+
+<Parameter name="NAMESPACE">
+<Description>
+NAMESPACE specifies the XML namespace to be used when creating the header.</Description>
+<Default>http://tempuri.org/headers</Default>
+</Parameter>
+
+<Property name="LicenseStatusCode">
+<Type>%xsd.int</Type>
+</Property>
+
+<Property name="LicenseStatus">
+<Type>%String</Type>
+</Property>
+
+<Property name="LicenseActionCode">
+<Type>%xsd.int</Type>
+</Property>
+
+<Property name="LicenseAction">
+<Type>%String</Type>
+</Property>
+
+<Property name="RemainingHits">
+<Type>%xsd.int</Type>
+</Property>
+
+<Property name="Amount">
+<Type>%xsd.decimal</Type>
+</Property>
+</Class>
+</Export>

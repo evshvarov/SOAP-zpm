@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="SOAP.DemoProxy">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebClient</Super>
+<TimeCreated>59058,27569</TimeCreated>
+
+<Parameter name="LOCATION">
+<Description><![CDATA[
+This is the URL used to access the web service.
+Change <I>localhost</I> to the web service machine's 
+IP address to access this service.]]></Description>
+<Default>http://localhost/csp/samples/SOAP.Demo.cls</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+Namespace. Change this to the namespace used by the web service.</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="SERVICENAME">
+<Description>
+This is the name of the web service.</Description>
+<Default>SOAPDemo</Default>
+</Parameter>
+
+<Parameter name="SOAPHEADERS">
+<Description>
+The list of reesponse SOAP headers that are supported by this web service client.
+Each entry in the comma separated list is of the form "headerElement:headerClassname".</Description>
+<Default>ResponseInfo:SOAP.ResponseInfo,SubscriptionInfo:SOAP.SubscriptionInfo</Default>
+</Parameter>
+
+<Method name="AddInteger">
+<Description>
+Use web service to add two integers and returns the result.</Description>
+<FormalSpec>Arg1:%Integer=0,Arg2:%Integer=0</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("AddInteger").Invoke(##this,"http://tempuri.org/SOAP.Demo.AddInteger",Arg1,Arg2)
+]]></Implementation>
+</Method>
+
+<Method name="Mission">
+<Description>
+Use web service to returns a corporate mission statement.</Description>
+<ReturnType>%String</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("Mission").Invoke(##this,"http://tempuri.org/SOAP.Demo.Mission")
+]]></Implementation>
+</Method>
+
+<Method name="RegisteredLookupCity">
+<Description><![CDATA[
+Returns the city and state for the given U.S. ZIP Code
+packaged within a <class>Sample.Address</class> object.
+The request is sent from a registered user.]]></Description>
+<FormalSpec><![CDATA[zip:%String,user:%String,password:%String,&remainingHits:%Integer]]></FormalSpec>
+<Implementation><![CDATA[
+	// Create registered user license header.
+	Set licenseHeader = ##class(SOAP.LicenseInfo).%New()
+	Set registered = ##class(SOAP.RegisteredUser).%New()
+	Set registered.UserID = user
+	Set registered.Password = password
+	Set licenseHeader.RegisteredUser = registered
+	Do ..HeadersOut.SetAt(licenseHeader,"LicenseInfo")
+
+	// Make LookupCity request
+	Set address = ..LookupCity(zip)
+	
+	// Evaluate response headers
+	Set responseInfo = ..HeadersIn.GetAt("ResponseInfo")
+	If (responseInfo = "") || (responseInfo.ResponseCode '= 0) {
+		Quit ""
+	}
+	Set subscription = ..HeadersIn.GetAt("SubscriptionInfo")
+	If subscription = "" Quit ""
+	Set remainingHits = subscription.RemainingHits
+	
+	Quit address
+]]></Implementation>
+</Method>
+
+<Method name="UnregisteredLookupCity">
+<Description><![CDATA[
+Returns the city and state for the given U.S. ZIP Code
+packaged within a <class>Sample.Address</class> object.
+The request is sent from an unregistered user.]]></Description>
+<FormalSpec>zip:%String,email:%String</FormalSpec>
+<Implementation><![CDATA[
+	// Create unregistered user license header.
+	Set licenseHeader = ##class(SOAP.LicenseInfo).%New()
+	Set unregistered = ##class(SOAP.UnregisteredUser).%New()
+	Set unregistered.EmailAddress = email
+	Set licenseHeader.UnregisteredUser = unregistered
+	Do ..HeadersOut.SetAt(licenseHeader,"LicenseInfo")
+
+	// Make LookupCity request
+	Quit ..LookupCity(zip)
+]]></Implementation>
+</Method>
+
+<Method name="LookupCity">
+<Description><![CDATA[
+Returns the city and state for the given U.S. ZIP Code
+packaged within a <class>Sample.Address</class> object.]]></Description>
+<FormalSpec>zip:%String</FormalSpec>
+<ReturnType>Sample.Address</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("LookupCity").Invoke(##this,"http://tempuri.org/SOAP.Demo.LookupCity",zip)
+]]></Implementation>
+</Method>
+
+<Method name="FindPerson">
+<Description><![CDATA[
+Use web service to returns data about the person in the database with
+object ID of <var>id</var>.]]></Description>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>Sample.Person</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("FindPerson").Invoke(##this,"http://tempuri.org/SOAP.Demo.FindPerson",id)
+]]></Implementation>
+</Method>
+
+<Method name="GetByName">
+<Description>
+A sample web method to invoke dynamic SQL to query the Sample.Person class and
+   return the results as a .NET untyped DataSet</Description>
+<FormalSpec>name:%String</FormalSpec>
+<ReturnType>%XML.DataSet</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("GetByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetByName",name)
+]]></Implementation>
+</Method>
+
+<Method name="GetListByName">
+<Description>
+A sample web method to invoke dynamic SQL to query the Sample.Person class and
+return the results as a list of objects.</Description>
+<FormalSpec>name:%String</FormalSpec>
+<ReturnType>Sample.ListOfPersonIdentification</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("GetListByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetListByName",name)
+]]></Implementation>
+</Method>
+
+<Method name="GetDataSetByName">
+<Description>
+A sample web method to invoke the ByName query of the Sample.Person class and
+return the results as a .NET typed DataSet</Description>
+<FormalSpec>name:%String</FormalSpec>
+<ReturnType>SOAP.ByNameDataSet</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[	Quit ..WebMethod("GetDataSetByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetDataSetByName",name)
+]]></Implementation>
+</Method>
+
+<Method name="DemoClient">
+<Description>
+A method to demonstrate using this proxy to act as a 
+SOAP client to access our SOAP.Demo service.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>zip:%String,id:%String</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	Set error=0
+	Set $ztrap="ErrorTrap" ; handle client error ro SOAP fault.
+	
+	// Get the web service instance and the proxy class instance for the web service.
+	Set proxy=##class(SOAP.DemoProxy).%New()
+	Set service=##class(SOAP.Demo).%New()
+
+	// Test AddInteger
+	Set SOAPsum=proxy.AddInteger(23,76)
+	Set sum=service.AddInteger(23,76)
+	Write "AddInteger Test -- Expected sum = 99",!
+	If SOAPsum=sum {
+		If sum'=99 {
+			Set error=1
+			Write "    Unexpected sum = ",sum,!
+		} Else {
+			Write "    Sum = ",sum,!
+		}
+	} Else {
+		Write "    Sums do not match",!
+		Write "    Direct sum = ",sum,!
+		Write "    SOAP sum = ",sum,!
+	}
+
+	// Test LookupCity
+	Set SOAPcity=proxy.LookupCity(zip)
+	Set city=service.LookupCity(zip)
+	Write "LookupCity Test for zip = ",zip,!
+	If (city.City=SOAPcity.City) && (city.State=SOAPcity.State) {
+		Write "    SOAP and local calls agree.",!
+		Write "    City = ",city.City,", State = ",city.State,!
+	} Else {
+		Write "    SOAP and local calls disagree.",!
+		Write "    SOAP  -- City = ",SOAPcity.City,", State = ",SOAPcity.State,!
+		Write "    Local -- City = ",city.City,", State = ",city.State,!
+		Set error=1
+	}
+	
+	// Test FindPerson
+	Set SOAPperson=proxy.FindPerson(id)
+	Set person=service.FindPerson(id)
+	Write "FindPerson Test for id = ",id,!
+	If ..comparePerson(SOAPperson,person) {
+		Write "    SOAP and local calls agree.",!
+		Do ..printPerson(person,"      ")
+	} Else {
+		Write "    SOAP and local calls disagree.",!
+		Write "      Person returned via local call",!
+		Do ..printPerson(person,"      ")
+		Write "      Person returned via SOAP call",!
+		Do ..printPerson(SOAPperson,"      ")
+		Set error=1
+	}
+
+	// Test GetListByName
+	Set SOAPlist=proxy.GetListByName("a")
+	Set list=service.GetListByName("a")
+	Write "GetListByName Test for name = a",!
+	Set ok=1
+	If SOAPlist.Count()'=list.Count() {
+		Write "    SOAP and local calls disagree.",!
+		Write "    SOAP count = ",SOAPlist.Count(),", local count = ",list.Count(),!
+		Set ok=0
+	}
+	If ok=1 {
+		For i=1:1:list.Count() {
+			If '..comparePersonIdentification(SOAPlist.GetAt(i),list.GetAt(i)) {
+				Set ok=0
+				Quit
+			}
+		}
+		If ok {
+			Write "    SOAP and local calls agree.",!
+		} Else {
+			Write "    SOAP and local calls disagree.",!
+		}
+		For i=1:1:list.Count() {
+			Write "    Local person ",i,!
+			Do ..printPersonIdentification(list.GetAt(i))
+			If 'ok {
+				Write "    SOAP person ",i,!
+				Do ..printPersonIdentification(SOAPlist.GetAt(i))
+			}
+		}
+	}
+	If 'ok Set error=1
+
+	// Test GetByName
+	Set SOAPresult=proxy.GetByName("a")
+	Set result=service.GetByName("a")
+	Write "GetByName Test for name = a",!
+	Set ok=1
+	If SOAPresult.GetColumnCount()'=result.GetColumnCount() {
+		Write "    SOAP and local calls disagree.",!
+		Write "    SOAP column count = ",SOAPresult.GetColumnCount(),", local column count = ",result.GetColumnCount(),!
+		Set ok=0
+	}
+	Set status=$$$OK
+	If ok=1 {
+		For i=1:1:result.GetColumnCount() {
+			If result.GetColumnName(i)'=SOAPresult.GetColumnName(i) {
+				Set ok=0
+				Write "    Column "_i_" name does not match, SOAP="_SOAPresult.GetColumnName(i)_", local="_result.GetColumnName(i),!
+				Quit
+			}
+		}
+	}
+	If ok=1 {
+		Set recnum=0
+		While result.Next(.status) {
+			Set recnum=recnum+1
+			Write "    Record "_recnum,!
+			If 'SOAPresult.Next() Set ok=0 Write "    Too few rows in SOAP result, SOAP="_SOAPresult.GetData(i)_", local="_result.GetData(i),! Quit
+			For i=1:1:result.GetColumnCount() {
+				Write "      "_result.GetColumnName(i)_" = "_result.GetData(i),!
+				If result.GetData(i)'=SOAPresult.GetData(i) {
+					Set ok=0
+					Write "    Column "_i_" does not match",!
+					Quit
+				}
+			}
+			If 'ok Quit
+		}
+		If ok {
+			Write "    SOAP and local calls agree.",!
+		} Else {
+			Write "    SOAP and local calls disagree.",!
+		}
+	}
+	If $$$ISERR(status) Set ok=0 Do $system.OBJ.DisplayError(status)
+	If SOAPresult.Next() Set ok=0 Write "Too many rows in SOAP result",!
+	If 'ok Set error=1
+
+	// Test GetDataSetByName
+	Set SOAPresult=proxy.GetDataSetByName("a")
+	Set result=service.GetDataSetByName("a")
+	Write "GetDataSetByName Test for name = a",!
+	Set ok=1
+	If SOAPresult.GetColumnCount()'=result.GetColumnCount() {
+		Write "    SOAP and local calls disagree.",!
+		Write "    SOAP column count = ",SOAPresult.GetColumnCount(),", local column count = ",result.GetColumnCount(),!
+		Set ok=0
+	}
+	Set status=$$$OK
+	If ok=1 {
+		For i=1:1:result.GetColumnCount() {
+			If result.GetColumnName(i)'=SOAPresult.GetColumnName(i) {
+				Set ok=0
+				Write "    Column "_i_" name does not match, SOAP="_SOAPresult.GetColumnName(i)_", local="_result.GetColumnName(i),!
+				Quit
+			}
+		}
+	}
+	If ok=1 {
+		Set recnum=0
+		While result.Next(.status) {
+			Set recnum=recnum+1
+			Write "    Record "_recnum,!
+			If 'SOAPresult.Next() Set ok=0 Write "    Too few rows in SOAP result, SOAP="_SOAPresult.GetData(i)_", local="_result.GetData(i),! Quit
+			For i=1:1:result.GetColumnCount() {
+				Write "      "_result.GetColumnName(i)_" = "_result.GetData(i),!
+				If result.GetData(i)'=SOAPresult.GetData(i) {
+					Set ok=0
+					Write "    Column "_i_" does not match",!
+					Quit
+				}
+			}
+			If 'ok Quit
+		}
+		If ok {
+			Write "    SOAP and local calls agree.",!
+		} Else {
+			Write "    SOAP and local calls disagree.",!
+		}
+	}
+	If $$$ISERR(status) Set ok=0 Do $system.OBJ.DisplayError(status)
+	If SOAPresult.Next() Set ok=0 Write "Too many rows in SOAP result",!
+	If 'ok Set error=1
+
+	// Some missions
+	Write "Our local mission is ",service.Mission(),!
+	Write "Our SOAP mission is ",proxy.Mission(),!
+	If error {
+		Write !,"SOAP test failed",!
+	} Else {
+		Write !,"SOAP test succeeded",!
+	}
+	Quit error
+
+ErrorTrap
+	; Trap any error
+	; If the trap was caused by ZTRAP "SOAP", then this is a SOAP error.
+	;    The SOAP error $$$SOAPFaultReceived indicates that the server 
+	;    returned the SOAP fault specified by the text.
+	Set $ztrap=""
+	If $ZE["<ZSOAP>" {
+		Do $system.OBJ.DisplayError(%objlasterror)
+	} else {
+		Write "ERROR:  "_$ZE
+	}
+	Quit 1
+]]></Implementation>
+</Method>
+
+<Method name="comparePerson">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>p1:Sample.Person,p2:Sample.Person</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	If p1.Name '= p2.Name Quit 0
+	If p1.SSN '= p2.SSN Quit 0
+	If p1.DOB '= p2.DOB Quit 0
+	If '..compareAddress(p1.Home,p2.Home) Quit 0
+	If '..compareAddress(p1.Office,p2.Office) Quit 0
+	
+	Set match=1
+	If p1.FavoriteColors.Count() '= p2.FavoriteColors.Count() Quit 0
+	For i=1:1:p1.FavoriteColors.Count() {
+		If p1.FavoriteColors.GetAt(i) '= p2.FavoriteColors.GetAt(i) Set match=0 Quit
+	}
+	
+	Quit match
+]]></Implementation>
+</Method>
+
+<Method name="printPerson">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>p:Sample.Person,indent:%String</FormalSpec>
+<Implementation><![CDATA[
+	Write indent,"Name = ",p.Name,!
+	Write indent,"SSN = ",p.SSN,!
+	Write indent,"DOB = ",$zdate(p.DOB),!
+	Write indent,"Home = ",!
+	Do ..printAddress(p.Home,indent_"   ")
+	Write indent,"Office = ",!
+	Do ..printAddress(p.Office,indent_"   ")
+	If p.FavoriteColors.Count() '= 0 {
+		Write indent,"FavoriteColors",!
+		For i=1:1:p.FavoriteColors.Count() {
+			Write indent,"   ",p.FavoriteColors.GetAt(i),!
+		}
+	}
+]]></Implementation>
+</Method>
+
+<Method name="compareAddress">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>a1:Sample.Address,a2:Sample.Address</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	If a1.Street '= a2.Street Quit 0
+	If a1.City '= a2.City Quit 0
+	If a1.State '= a2.State Quit 0
+	If a1.Zip '= a2.Zip Quit 0
+	Quit 1
+]]></Implementation>
+</Method>
+
+<Method name="printAddress">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>a:Sample.Address,indent:%String</FormalSpec>
+<Implementation><![CDATA[
+	Write indent,"Street = ",a.Street,!
+	Write indent,"City = ",a.City,!
+	Write indent,"State = ",a.State,!
+	Write indent,"Zip = ",a.Zip,!
+]]></Implementation>
+</Method>
+
+<Method name="comparePersonIdentification">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>p1:Sample.PersonIdentification,p2:Sample.PersonIdentification</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	If p1.ID '= p2.ID Quit 0
+	If p1.Name '= p2.Name Quit 0
+	If p1.SSN '= p2.SSN Quit 0
+	If p1.DOB '= p2.DOB Quit 0
+	Quit 1
+]]></Implementation>
+</Method>
+
+<Method name="printPersonIdentification">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>p:Sample.PersonIdentification,indent:%String="      "</FormalSpec>
+<Implementation><![CDATA[
+	Write indent,"ID = ",p.ID,!
+	Write indent,"Name = ",p.Name,!
+	Write indent,"SSN = ",p.SSN,!
+	Write indent,"DOB = ",$zdate(p.DOB),!
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="SOAP.RegisteredUser">
+<Description>
+UserID and password for registered user in LicenseInfo SOAP header</Description>
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeCreated>60379,57739.614399</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="NAMESPACE">
+<Description>
+NAMESPACE specifies the XML namespace to be used when creating the header.</Description>
+<Default>http://ws.strikeiron.com</Default>
+</Parameter>
+
+<Property name="UserID">
+<Type>%String</Type>
+</Property>
+
+<Property name="Password">
+<Type>%String</Type>
+</Property>
+</Class>
+</Export>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="SOAP.LicenseInfo">
+<Description>
+License information SOAP header</Description>
+<Super>%SOAP.Header</Super>
+<TimeCreated>60379,57217.413966</TimeCreated>
+
+<Parameter name="NAMESPACE">
+<Description>
+NAMESPACE specifies the XML namespace to be used when creating the header.</Description>
+<Default>http://tempuri.org/headers</Default>
+</Parameter>
+
+<Property name="UnregisteredUser">
+<Type>SOAP.UnregisteredUser</Type>
+</Property>
+
+<Property name="RegisteredUser">
+<Type>SOAP.RegisteredUser</Type>
+</Property>
+</Class>
+</Export>

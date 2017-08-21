@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="SOAP.ByNameDataSet">
+<Description>
+A sample subclass of %XML.DataSet that implements a .Net typed dataset.</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%XML.DataSet</Super>
+<TimeCreated>59254,62679</TimeCreated>
+
+<Parameter name="NAMESPACE">
+<Description>
+The XML namespace for typed DataSets</Description>
+<Default>http://tempuri.org/ByNameDataSet</Default>
+</Parameter>
+
+<Parameter name="CLASSNAME">
+<Description>
+The class name that contains the query for typed DataSet</Description>
+<Default>Sample.Person</Default>
+</Parameter>
+
+<Parameter name="QUERYNAME">
+<Description>
+The query name for typed DataSet</Description>
+<Default>ByName</Default>
+</Parameter>
+</Class>
+</Export>

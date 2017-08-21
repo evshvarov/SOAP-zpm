@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Document name="isc.samples.SOAP.MODULE"><Module>
+  <Name>isc.samples.SOAP</Name>
+  <Version>0.0.1+snapshot</Version>
+  <Packaging>module</Packaging>
+  <Dependencies>
+    <ModuleReference>
+      <Name>Sample</Name>
+      <Version>0.0.1+snapshot</Version>
+    </ModuleReference>
+  </Dependencies>
+  <Resources>
+      <Resource Name="/csp/soap/" ProcessorClass="CSPApplication">
+      <Attribute Name="CookiePath">/csp/{$namespace}/soap/</Attribute>
+      <Attribute Name="Directory">{$cspdir}{$namespace}/soap/</Attribute>
+      <Attribute Name="ServeFiles">0</Attribute>
+      <Attribute Name="UnauthenticatedEnabled">1</Attribute>
+      <Attribute Name="Url">/csp/{$namespace}/soap</Attribute>
+    </Resource>
+    <Resource Name="SOAP.PKG">
+    </Resource>
+  </Resources>
+  <LifecycleClass>Module</LifecycleClass>
+</Module>
+</Document></Export>
