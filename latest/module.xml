@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
-<Document name="isc.samples.SOAP.MODULE"><Module>
-  <Name>isc.samples.SOAP</Name>
+<Document name="SOAP.MODULE"><Module>
+  <Name>SOAP</Name>
   <Version>0.0.1+snapshot</Version>
   <Packaging>module</Packaging>
   <Dependencies>
