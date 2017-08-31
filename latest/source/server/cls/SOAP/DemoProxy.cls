@@ -1,63 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25">
-<Class name="SOAP.DemoProxy">
-<ProcedureBlock>1</ProcedureBlock>
-<Super>%SOAP.WebClient</Super>
-<TimeCreated>59058,27569</TimeCreated>
+Class SOAP.DemoProxy Extends %SOAP.WebClient
+{
 
-<Parameter name="LOCATION">
-<Description><![CDATA[
-This is the URL used to access the web service.
-Change <I>localhost</I> to the web service machine's 
-IP address to access this service.]]></Description>
-<Default>http://localhost/csp/samples/SOAP.Demo.cls</Default>
-</Parameter>
+/// This is the URL used to access the web service.
+/// Change <I>localhost</I> to the web service machine's 
+/// IP address to access this service.
+Parameter LOCATION = "http://localhost/csp/samples/SOAP.Demo.cls";
 
-<Parameter name="NAMESPACE">
-<Description>
-Namespace. Change this to the namespace used by the web service.</Description>
-<Default>http://tempuri.org</Default>
-</Parameter>
+/// Namespace. Change this to the namespace used by the web service.
+Parameter NAMESPACE = "http://tempuri.org";
 
-<Parameter name="SERVICENAME">
-<Description>
-This is the name of the web service.</Description>
-<Default>SOAPDemo</Default>
-</Parameter>
+/// This is the name of the web service.
+Parameter SERVICENAME = "SOAPDemo";
 
-<Parameter name="SOAPHEADERS">
-<Description>
-The list of reesponse SOAP headers that are supported by this web service client.
-Each entry in the comma separated list is of the form "headerElement:headerClassname".</Description>
-<Default>ResponseInfo:SOAP.ResponseInfo,SubscriptionInfo:SOAP.SubscriptionInfo</Default>
-</Parameter>
+/// The list of reesponse SOAP headers that are supported by this web service client.
+/// Each entry in the comma separated list is of the form "headerElement:headerClassname".
+Parameter SOAPHEADERS = "ResponseInfo:SOAP.ResponseInfo,SubscriptionInfo:SOAP.SubscriptionInfo";
 
-<Method name="AddInteger">
-<Description>
-Use web service to add two integers and returns the result.</Description>
-<FormalSpec>Arg1:%Integer=0,Arg2:%Integer=0</FormalSpec>
-<ReturnType>%Integer</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("AddInteger").Invoke(##this,"http://tempuri.org/SOAP.Demo.AddInteger",Arg1,Arg2)
-]]></Implementation>
-</Method>
+/// Use web service to add two integers and returns the result.
+Method AddInteger(Arg1 As %Integer = 0, Arg2 As %Integer = 0) As %Integer [ WebMethod ]
+{
+	Quit ..WebMethod("AddInteger").Invoke(##this,"http://tempuri.org/SOAP.Demo.AddInteger",Arg1,Arg2)
+}
 
-<Method name="Mission">
-<Description>
-Use web service to returns a corporate mission statement.</Description>
-<ReturnType>%String</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("Mission").Invoke(##this,"http://tempuri.org/SOAP.Demo.Mission")
-]]></Implementation>
-</Method>
+/// Use web service to returns a corporate mission statement.
+Method Mission() As %String [ WebMethod ]
+{
+	Quit ..WebMethod("Mission").Invoke(##this,"http://tempuri.org/SOAP.Demo.Mission")
+}
 
-<Method name="RegisteredLookupCity">
-<Description><![CDATA[
-Returns the city and state for the given U.S. ZIP Code
-packaged within a <class>Sample.Address</class> object.
-The request is sent from a registered user.]]></Description>
-<FormalSpec><![CDATA[zip:%String,user:%String,password:%String,&remainingHits:%Integer]]></FormalSpec>
-<Implementation><![CDATA[
+/// Returns the city and state for the given U.S. ZIP Code
+/// packaged within a <class>Sample.Address</class> object.
+/// The request is sent from a registered user.
+Method RegisteredLookupCity(zip As %String, user As %String, password As %String, ByRef remainingHits As %Integer)
+{
 	// Create registered user license header.
 	Set licenseHeader = ##class(SOAP.LicenseInfo).%New()
 	Set registered = ##class(SOAP.RegisteredUser).%New()
@@ -79,16 +54,13 @@ The request is sent from a registered user.]]></Description>
 	Set remainingHits = subscription.RemainingHits
 	
 	Quit address
-]]></Implementation>
-</Method>
+}
 
-<Method name="UnregisteredLookupCity">
-<Description><![CDATA[
-Returns the city and state for the given U.S. ZIP Code
-packaged within a <class>Sample.Address</class> object.
-The request is sent from an unregistered user.]]></Description>
-<FormalSpec>zip:%String,email:%String</FormalSpec>
-<Implementation><![CDATA[
+/// Returns the city and state for the given U.S. ZIP Code
+/// packaged within a <class>Sample.Address</class> object.
+/// The request is sent from an unregistered user.
+Method UnregisteredLookupCity(zip As %String, email As %String)
+{
 	// Create unregistered user license header.
 	Set licenseHeader = ##class(SOAP.LicenseInfo).%New()
 	Set unregistered = ##class(SOAP.UnregisteredUser).%New()
@@ -98,72 +70,47 @@ The request is sent from an unregistered user.]]></Description>
 
 	// Make LookupCity request
 	Quit ..LookupCity(zip)
-]]></Implementation>
-</Method>
+}
 
-<Method name="LookupCity">
-<Description><![CDATA[
-Returns the city and state for the given U.S. ZIP Code
-packaged within a <class>Sample.Address</class> object.]]></Description>
-<FormalSpec>zip:%String</FormalSpec>
-<ReturnType>Sample.Address</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("LookupCity").Invoke(##this,"http://tempuri.org/SOAP.Demo.LookupCity",zip)
-]]></Implementation>
-</Method>
+/// Returns the city and state for the given U.S. ZIP Code
+/// packaged within a <class>Sample.Address</class> object.
+Method LookupCity(zip As %String) As Sample.Address [ WebMethod ]
+{
+	Quit ..WebMethod("LookupCity").Invoke(##this,"http://tempuri.org/SOAP.Demo.LookupCity",zip)
+}
 
-<Method name="FindPerson">
-<Description><![CDATA[
-Use web service to returns data about the person in the database with
-object ID of <var>id</var>.]]></Description>
-<FormalSpec>id:%String</FormalSpec>
-<ReturnType>Sample.Person</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("FindPerson").Invoke(##this,"http://tempuri.org/SOAP.Demo.FindPerson",id)
-]]></Implementation>
-</Method>
+/// Use web service to returns data about the person in the database with
+/// object ID of <var>id</var>.
+Method FindPerson(id As %String) As Sample.Person [ WebMethod ]
+{
+	Quit ..WebMethod("FindPerson").Invoke(##this,"http://tempuri.org/SOAP.Demo.FindPerson",id)
+}
 
-<Method name="GetByName">
-<Description>
-A sample web method to invoke dynamic SQL to query the Sample.Person class and
-   return the results as a .NET untyped DataSet</Description>
-<FormalSpec>name:%String</FormalSpec>
-<ReturnType>%XML.DataSet</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("GetByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetByName",name)
-]]></Implementation>
-</Method>
+/// A sample web method to invoke dynamic SQL to query the Sample.Person class and
+///    return the results as a .NET untyped DataSet
+Method GetByName(name As %String) As %XML.DataSet [ WebMethod ]
+{
+	Quit ..WebMethod("GetByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetByName",name)
+}
 
-<Method name="GetListByName">
-<Description>
-A sample web method to invoke dynamic SQL to query the Sample.Person class and
-return the results as a list of objects.</Description>
-<FormalSpec>name:%String</FormalSpec>
-<ReturnType>Sample.ListOfPersonIdentification</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("GetListByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetListByName",name)
-]]></Implementation>
-</Method>
+/// A sample web method to invoke dynamic SQL to query the Sample.Person class and
+/// return the results as a list of objects.
+Method GetListByName(name As %String) As Sample.ListOfPersonIdentification [ WebMethod ]
+{
+	Quit ..WebMethod("GetListByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetListByName",name)
+}
 
-<Method name="GetDataSetByName">
-<Description>
-A sample web method to invoke the ByName query of the Sample.Person class and
-return the results as a .NET typed DataSet</Description>
-<FormalSpec>name:%String</FormalSpec>
-<ReturnType>SOAP.ByNameDataSet</ReturnType>
-<WebMethod>1</WebMethod>
-<Implementation><![CDATA[	Quit ..WebMethod("GetDataSetByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetDataSetByName",name)
-]]></Implementation>
-</Method>
+/// A sample web method to invoke the ByName query of the Sample.Person class and
+/// return the results as a .NET typed DataSet
+Method GetDataSetByName(name As %String) As SOAP.ByNameDataSet [ WebMethod ]
+{
+	Quit ..WebMethod("GetDataSetByName").Invoke(##this,"http://tempuri.org/SOAP.Demo.GetDataSetByName",name)
+}
 
-<Method name="DemoClient">
-<Description>
-A method to demonstrate using this proxy to act as a 
-SOAP client to access our SOAP.Demo service.</Description>
-<ClassMethod>1</ClassMethod>
-<FormalSpec>zip:%String,id:%String</FormalSpec>
-<ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
+/// A method to demonstrate using this proxy to act as a 
+/// SOAP client to access our SOAP.Demo service.
+ClassMethod DemoClient(zip As %String, id As %String) As %Boolean
+{
 	Set error=0
 	Set $ztrap="ErrorTrap" ; handle client error ro SOAP fault.
 	
@@ -365,14 +312,10 @@ ErrorTrap
 		Write "ERROR:  "_$ZE
 	}
 	Quit 1
-]]></Implementation>
-</Method>
+}
 
-<Method name="comparePerson">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>p1:Sample.Person,p2:Sample.Person</FormalSpec>
-<ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
+ClassMethod comparePerson(p1 As Sample.Person, p2 As Sample.Person) As %Boolean
+{
 	If p1.Name '= p2.Name Quit 0
 	If p1.SSN '= p2.SSN Quit 0
 	If p1.DOB '= p2.DOB Quit 0
@@ -386,13 +329,10 @@ ErrorTrap
 	}
 	
 	Quit match
-]]></Implementation>
-</Method>
+}
 
-<Method name="printPerson">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>p:Sample.Person,indent:%String</FormalSpec>
-<Implementation><![CDATA[
+ClassMethod printPerson(p As Sample.Person, indent As %String)
+{
 	Write indent,"Name = ",p.Name,!
 	Write indent,"SSN = ",p.SSN,!
 	Write indent,"DOB = ",$zdate(p.DOB),!
@@ -406,55 +346,40 @@ ErrorTrap
 			Write indent,"   ",p.FavoriteColors.GetAt(i),!
 		}
 	}
-]]></Implementation>
-</Method>
+}
 
-<Method name="compareAddress">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>a1:Sample.Address,a2:Sample.Address</FormalSpec>
-<ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
+ClassMethod compareAddress(a1 As Sample.Address, a2 As Sample.Address) As %Boolean
+{
 	If a1.Street '= a2.Street Quit 0
 	If a1.City '= a2.City Quit 0
 	If a1.State '= a2.State Quit 0
 	If a1.Zip '= a2.Zip Quit 0
 	Quit 1
-]]></Implementation>
-</Method>
+}
 
-<Method name="printAddress">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>a:Sample.Address,indent:%String</FormalSpec>
-<Implementation><![CDATA[
+ClassMethod printAddress(a As Sample.Address, indent As %String)
+{
 	Write indent,"Street = ",a.Street,!
 	Write indent,"City = ",a.City,!
 	Write indent,"State = ",a.State,!
 	Write indent,"Zip = ",a.Zip,!
-]]></Implementation>
-</Method>
+}
 
-<Method name="comparePersonIdentification">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>p1:Sample.PersonIdentification,p2:Sample.PersonIdentification</FormalSpec>
-<ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
+ClassMethod comparePersonIdentification(p1 As Sample.PersonIdentification, p2 As Sample.PersonIdentification) As %Boolean
+{
 	If p1.ID '= p2.ID Quit 0
 	If p1.Name '= p2.Name Quit 0
 	If p1.SSN '= p2.SSN Quit 0
 	If p1.DOB '= p2.DOB Quit 0
 	Quit 1
-]]></Implementation>
-</Method>
+}
 
-<Method name="printPersonIdentification">
-<ClassMethod>1</ClassMethod>
-<FormalSpec>p:Sample.PersonIdentification,indent:%String="      "</FormalSpec>
-<Implementation><![CDATA[
+ClassMethod printPersonIdentification(p As Sample.PersonIdentification, indent As %String = "      ")
+{
 	Write indent,"ID = ",p.ID,!
 	Write indent,"Name = ",p.Name,!
 	Write indent,"SSN = ",p.SSN,!
 	Write indent,"DOB = ",$zdate(p.DOB),!
-]]></Implementation>
-</Method>
-</Class>
-</Export>
+}
+
+}

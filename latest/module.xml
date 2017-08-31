@@ -19,6 +19,8 @@
       <Attribute Name="Url">/csp/{$namespace}/soap</Attribute>
     </Resource>
     <Resource Name="SOAP.PKG">
+      <Attribute Name="Directory">source/server/cls</Attribute>
+      <Attribute Name="FilenameExtension">cls</Attribute>
     </Resource>
   </Resources>
   <LifecycleClass>Module</LifecycleClass>
